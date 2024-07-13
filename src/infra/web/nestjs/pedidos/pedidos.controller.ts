@@ -20,11 +20,13 @@ import IPedidoRepository, {
 import IProdutoRepository, {
   IProdutoRepository as IProdutoRepositorySymbol,
 } from '@/core/domain/repositories/iproduto.repository'
-import IPagamentoService, {
-  IPagamentoService as IPagamentoServiceSymbol,
-} from '@/core/domain/services/ipagamento.service'
+import IAssemblyService, {
+  IAssemblyService as IAssemblyServiceSymbol,
+} from '@/core/domain/services/iassembly.service'
+import IPaymentService, {
+  IPaymentService as IPaymentServiceSymbol,
+} from '@/core/domain/services/ipayment.service'
 import { PedidoController } from '@/core/operation/controllers/pedido.controller'
-import UpdatePagamentoPayload from '@/infra/web/mercado-pago/dto/update-pagamento-payload'
 import PedidoResponse from '@/infra/web/nestjs/pedidos/dto/pedido.response'
 import UpdatePedidoRequest from '@/infra/web/nestjs/pedidos/dto/update-pedido.request'
 
@@ -37,8 +39,8 @@ export default class PedidosController {
     @Inject(IPedidoRepositorySymbol) private readonly repository: IPedidoRepository,
     @Inject(IConsumidorRepositorySymbol) private readonly consumidorRepository: IConsumidorRepository,
     @Inject(IProdutoRepositorySymbol) private readonly produtoRepository: IProdutoRepository,
-    @Inject(IPagamentoServiceSymbol) private readonly pagamentoService: IPagamentoService,
-
+    @Inject(IPaymentServiceSymbol) private readonly paymentService: IPaymentService,
+    @Inject(IAssemblyServiceSymbol) private readonly assemblyService: IAssemblyService,
   ) {}
 
   @Get()
@@ -49,7 +51,8 @@ export default class PedidosController {
       this.repository,
       this.consumidorRepository,
       this.produtoRepository,
-      this.pagamentoService
+      this.paymentService,
+      this.assemblyService,
     )
 
     return controller.list()
@@ -67,31 +70,11 @@ export default class PedidosController {
       this.repository,
       this.consumidorRepository,
       this.produtoRepository,
-      this.pagamentoService
+      this.paymentService,
+      this.assemblyService,
     )
 
     return controller.create(input)
-  }
-
-  @Post('/pagamento-webhook/mercado-pago')
-  @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Atualizar um Pedido a partir do evento do gateway de pagamento' })
-  @ApiBody({ type: UpdatePagamentoPayload })
-  @ApiOkResponse({ description: 'O registro atualizado', type: PedidoResponse })
-  pagamentoWebhook (
-    @Body() input: UpdatePagamentoPayload
-  ): Promise<PedidoResponse> {
-    const pedidoId = parseInt(input.external_reference)
-    const paymentApproved = !!input.date_approved
-
-    const controller = new PedidoController(
-      this.repository,
-      this.consumidorRepository,
-      this.produtoRepository,
-      this.pagamentoService
-    )
-
-    return controller.updatePayment(pedidoId, paymentApproved)
   }
 
   @Put(':id')
@@ -107,10 +90,65 @@ export default class PedidosController {
       this.repository,
       this.consumidorRepository,
       this.produtoRepository,
-      this.pagamentoService
+      this.paymentService,
+      this.assemblyService,
     )
 
     return controller.update(id, input)
+  }
+
+  @Post('/payment-webhook/confirm/:id')
+  @ApiOperation({ summary: 'Receber e processar o evento de confirmação de pagamento de um Pedido a partir do serviço irango-payment' })
+  @ApiParam({ name: 'id', required: true, example: 12345 })
+  @ApiOkResponse({ description: 'O registro atualizado', type: PedidoResponse })
+  confirmPayment (
+    @Param('id') id: number,
+  ): Promise<PedidoResponse> {
+    const controller = new PedidoController(
+      this.repository,
+      this.consumidorRepository,
+      this.produtoRepository,
+      this.paymentService,
+      this.assemblyService,
+    )
+
+    return controller.confirmPayment(id)
+  }
+
+  @Post('/assembly-webhook/start/:id')
+  @ApiOperation({ summary: 'Receber e processar o evento de início de preparo de um Pedido a partir do serviço irango-assembly' })
+  @ApiParam({ name: 'id', required: true, example: 12345 })
+  @ApiOkResponse({ description: 'O registro atualizado', type: PedidoResponse })
+  StartAssembly (
+    @Param('id') id: number,
+  ): Promise<PedidoResponse> {
+    const controller = new PedidoController(
+      this.repository,
+      this.consumidorRepository,
+      this.produtoRepository,
+      this.paymentService,
+      this.assemblyService,
+    )
+
+    return controller.StartAssembly(id)
+  }
+
+  @Post('/assembly-webhook/finish/:id')
+  @ApiOperation({ summary: 'Receber e processar o evento de finalização de preparo de um Pedido a partir do serviço irango-assembly' })
+  @ApiParam({ name: 'id', required: true, example: 12345 })
+  @ApiOkResponse({ description: 'O registro atualizado', type: PedidoResponse })
+  FinishAssembly (
+    @Param('id') id: number,
+  ): Promise<PedidoResponse> {
+    const controller = new PedidoController(
+      this.repository,
+      this.consumidorRepository,
+      this.produtoRepository,
+      this.paymentService,
+      this.assemblyService,
+    )
+
+    return controller.FinishAssembly(id)
   }
 
   @Get('/:id')
@@ -124,7 +162,8 @@ export default class PedidosController {
       this.repository,
       this.consumidorRepository,
       this.produtoRepository,
-      this.pagamentoService
+      this.paymentService,
+      this.assemblyService,
     )
 
     return controller.findById(id)

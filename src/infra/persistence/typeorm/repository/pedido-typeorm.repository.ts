@@ -80,6 +80,6 @@ export default class PedidoTypeormRepository implements IPedidoRepository {
       .addOrderBy('pedido.createdAt', 'DESC')
       .getMany()
 
-    return pedidos.map(PedidoMapper.toDomainEntity)
+    return pedidos.map(pedido => PedidoMapper.toDomainEntity(pedido))
   }
 }

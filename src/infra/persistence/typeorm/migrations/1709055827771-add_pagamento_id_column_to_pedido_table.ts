@@ -4,10 +4,10 @@ export class AddPagamentoGatewayColumnToPedidoTable1709055827771 implements Migr
     name = 'AddPagamentoGatewayColumnToPedidoTable1709055827771'
 
     public async up (queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query('ALTER TABLE `Pedido` ADD `gatewayPagamentoId` varchar(36) NULL')
+      await queryRunner.query('ALTER TABLE `Pedido` ADD `pagamentoId` varchar(36) NULL')
     }
 
     public async down (queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query('ALTER TABLE `Pedido` DROP COLUMN `gatewayPagamentoId`')
+      await queryRunner.query('ALTER TABLE `Pedido` DROP COLUMN `pagamentoId`')
     }
 }

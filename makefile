@@ -7,9 +7,9 @@ CONTAINER_MYSQL = local-mysql
 CONTAINER_REDIS = local-redis
 CONTAINER_BACKEND = service-irango-api
 
-DATABASE = irango
+DATABASE = irango-assembly
 
-IMAGE ?= matob/irango-api
+IMAGE ?= ianoliv/irango-api
 
 .PHONY: setup
 setup: clean down add-network create.env.file build up migration.run seed.run logs

@@ -5,7 +5,7 @@ import Pedido from '@/core/domain/entities/pedido'
 import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 import BusinessException from '@/core/domain/errors/business-exception'
 import { ConsumidorGateway } from '@/core/operation/gateway/consumidor.gateway'
-import { PagamentoGateway } from '@/core/operation/gateway/pagamento.gateway'
+import { PaymentGateway } from '@/core/operation/gateway/payment.gateway'
 import { PedidoGateway } from '@/core/operation/gateway/pedido.gateway'
 import { ProdutoGateway } from '@/core/operation/gateway/produto.gateway'
 import CreatePedidoRequest from '@/infra/web/nestjs/pedidos/dto/create-pedido.request'
@@ -15,7 +15,7 @@ export default class Create {
     private readonly gateway: PedidoGateway,
     private readonly consumidorGateway: ConsumidorGateway,
     private readonly produtoGateway: ProdutoGateway,
-    private readonly pagamentoGateway: PagamentoGateway,
+    private readonly paymentGateway: PaymentGateway,
   ) {}
 
   async handle (input: CreatePedidoRequest): Promise<Pedido> {
@@ -34,8 +34,8 @@ export default class Create {
 
     pedido = await this.gateway.create(pedido)
 
-    const gatewayPagamentoId = await this.pagamentoGateway.registerOrder(pedido)
-    pedido.gatewayPagamentoId = gatewayPagamentoId
+    const pagamentoId = await this.paymentGateway.registerOrder(pedido)
+    pedido.pagamentoId = pagamentoId
 
     await this.gateway.save(pedido)
     return pedido

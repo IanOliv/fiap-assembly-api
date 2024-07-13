@@ -9,7 +9,7 @@ export default interface PedidoDto {
   readonly total: number;
   readonly itens: ItemPedidoDto[];
   readonly status: PedidoStatusEnum;
-  readonly gatewayPagamentoId?: string;
+  readonly pagamentoId?: string;
   readonly createdAt?: Date;
   readonly updatedAt?: Date;
 }

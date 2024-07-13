@@ -12,9 +12,9 @@ export default class AppController {
 
   @Get()
   @ApiOperation({ summary: 'API index endpoint' })
-  @ApiOkResponse({ description: 'API index endpoint', type: 'iRango API' })
+  @ApiOkResponse({ description: 'API index endpoint', type: 'iRango Order API' })
   app (): string {
-    return 'iRango API'
+    return 'iRango Order API'
   }
 
   @Get('/health-check')

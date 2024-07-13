@@ -20,7 +20,7 @@ export class Ingrediente {
   @Column({ type: 'float', nullable: true })
   preco?: number
 
-  @Column({ name: 'produto_id', length: 36 })
+  @Column({ name: 'produto_id', length: 36, nullable: true })
   public produtoId?: string
 
   @ManyToOne(() => Produto, (produto) => produto.ingredientes)

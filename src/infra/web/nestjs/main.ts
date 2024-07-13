@@ -28,14 +28,16 @@ const configureSentry = (app: INestApplication) => {
 
 const configureSwagger = (app: INestApplication) => {
   const swaggerOptions = new DocumentBuilder()
-    .setTitle('iRango API')
-    .setDescription('iRango API documentation')
+    .setTitle('iRango Order API')
+    .setDescription('iRango Order API documentation')
     .setVersion('0.0.1')
     // .addBearerAuth(undefined, 'Mobile')
     .build()
 
   const document = SwaggerModule.createDocument(app, swaggerOptions)
-  SwaggerModule.setup('docs', app, document)
+  SwaggerModule.setup('docs', app, document, {
+    jsonDocumentUrl: 'docs/json'
+  })
 }
 
 async function bootstrap () {

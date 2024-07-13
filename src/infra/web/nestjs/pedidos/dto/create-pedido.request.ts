@@ -1,7 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
 
+import { Type } from 'class-transformer'
+import { IsArray, ValidateNested } from 'class-validator'
+
 import PedidoCreateDto, { ItemPedidoCreateDto } from '@/core/domain/dto/input/pedido-create.dto'
-import ItemPedidoResponse from '@/infra/web/nestjs/pedidos/dto/item-pedido.response'
 
 class CreateItemPedidoRequest implements ItemPedidoCreateDto {
   @ApiProperty({
@@ -31,10 +33,12 @@ export default class CreatePedidoRequest implements PedidoCreateDto {
   })
   readonly consumidorId?: string
 
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateItemPedidoRequest)
   @ApiProperty({
     description: 'Itens do Pedido',
-    type: [ItemPedidoResponse],
-    isArray: true
+    type: [CreateItemPedidoRequest],
   })
   readonly itens: CreateItemPedidoRequest[]
 }

@@ -30,7 +30,7 @@ export class Pedido {
   status: PedidoStatusEnum
 
   @Column({ type: 'varchar', length: 36, nullable: true })
-  gatewayPagamentoId?: string
+  pagamentoId?: string
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt?: Date

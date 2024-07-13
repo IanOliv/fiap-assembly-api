@@ -1,8 +1,8 @@
 import Pedido from '@/core/domain/entities/pedido'
-import IPagamentoService from '@/core/domain/services/ipagamento.service'
+import IPaymentService from '@/core/domain/services/ipayment.service'
 
-export class PagamentoGateway {
-  constructor (private respository: IPagamentoService) {
+export class PaymentGateway {
+  constructor (private respository: IPaymentService) {
 
   }
 

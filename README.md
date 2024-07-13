@@ -1,4 +1,4 @@
-# iRango Order API
+# iRango Assembly API
 ![typescript](https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=FFF&style=flat-square)
 ![Node 20.10](https://shields.io/badge/Node-20.10.0-339933?logo=Node.js&logoColor=FFF&style=flat-square)
 ![nestjs](https://shields.io/badge/NestJS-E0234E?logo=NestJS&logoColor=FFF&style=flat-square)
@@ -11,6 +11,16 @@
 ![eslint](https://shields.io/badge/ESLint-4B32C3?logo=ESLint&logoColor=FFF&style=flat-square)
 ![editorconfig](https://shields.io/badge/EditorConfig-000000?logo=EditorConfig&logoColor=FFF&style=flat-square)
 ![typeorm](https://shields.io/badge/TypeORM-F37626?logo=TypeORM&logoColor=FFF&style=flat-square)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=IanOliv_fiap-irango-assembly-api&metric=bugs)](https://sonarcloud.io/summary/new_code?id=IanOliv_fiap-irango-assembly-api)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=IanOliv_fiap-irango-assembly-api&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=IanOliv_fiap-irango-assembly-api)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=IanOliv_fiap-irango-assembly-api&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=IanOliv_fiap-irango-assembly-api)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=IanOliv_fiap-irango-assembly-api&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=IanOliv_fiap-irango-assembly-api)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=IanOliv_fiap-irango-assembly-api&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=IanOliv_fiap-irango-assembly-api)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=IanOliv_fiap-irango-assembly-api&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=IanOliv_fiap-irango-assembly-api)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=IanOliv_fiap-irango-assembly-api&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=IanOliv_fiap-irango-assembly-api)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=IanOliv_fiap-irango-assembly-api&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=IanOliv_fiap-irango-assembly-api)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=IanOliv_fiap-irango-assembly-api&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=IanOliv_fiap-irango-assembly-api)
+
 
 This project involves the development of an API for a fast food self-service system, proposed as a Tech Challenge for the Software Architecture Postgraduate Course at FIAP.
 
@@ -19,6 +29,7 @@ For this project, we utilized the [TypeScript](https://www.typescriptlang.org/) 
 To build the API documentation, we've used [Swagger](https://swagger.io/) tool integrated with Nest.js, accessible through the endpoint: {irango_host}/docs
 
 ## [DDD - Domain Driven Design Diagrams](./docs/domain-driven-design.md)
+
 
 ## Workspace Dependencies
 - [Node 20.10](https://nodejs.org/)

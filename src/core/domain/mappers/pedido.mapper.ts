@@ -14,7 +14,7 @@ export default class PedidoMapper {
       itens: pedido.itens?.map(item => ItemPedidoMapper.toDto(item)),
       total: pedido.total,
       status: pedido.status,
-      gatewayPagamentoId: pedido.gatewayPagamentoId,
+      pagamentoId: pedido.pagamentoId,
       createdAt: pedido.createdAt,
       updatedAt: pedido.updatedAt
     }
@@ -30,7 +30,7 @@ export default class PedidoMapper {
       itens: input.itens?.map(item => ItemPedidoMapper.toDomainEntity(item)),
       total: input.total,
       status: input.status,
-      gatewayPagamentoId: input.gatewayPagamentoId,
+      pagamentoId: input.pagamentoId,
       createdAt: input.createdAt,
       updatedAt: input.updatedAt
     })

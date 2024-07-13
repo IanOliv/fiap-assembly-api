@@ -22,8 +22,8 @@ export default {
     const sendEvent = (envAllowList.indexOf(envs.NODE_ENV) !== -1)
 
     if (!sendEvent) {
-      console.log('Sentry event not sent')
-      console.log(event.exception?.values?.[0] || event.message || event)
+      console.error('Sentry event not sent')
+      console.error(event.exception?.values?.[0] || event.message || event)
     }
 
     return sendEvent ? event : null

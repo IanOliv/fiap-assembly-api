@@ -32,7 +32,7 @@ export default class AllExceptionFilter implements ExceptionFilter {
         }
         : undefined
       Sentry.captureException(exception, { extra })
-      console.log(exception)
+      console.error(exception)
     }
 
     response.status(statusCode).json({ statusCode, errors })

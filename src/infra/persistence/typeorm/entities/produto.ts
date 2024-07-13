@@ -37,7 +37,7 @@ export class Produto {
 
   @Column({
     name: 'deleted_at',
-    type: 'timestamp',
+    type: 'datetime',
     nullable: true
   })
   deletedAt?: Date

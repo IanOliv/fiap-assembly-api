@@ -1,9 +1,12 @@
 import { fakerPT_BR as faker } from '@faker-js/faker'
+import { v4 as uuidv4 } from 'uuid'
 
 import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 import IPedidoRepository, {
   IPedidoRepository as IPedidoRepositorySymbol,
 } from '@/core/domain/repositories/ipedido.repository'
+import { IPaymentService } from '@/core/domain/services/ipayment.service'
+import IRangoPaymentService from '@/infra/persistence/service/irango-payment.service'
 import { Consumidor } from '@/infra/persistence/typeorm/entities/consumidor'
 import { Produto } from '@/infra/persistence/typeorm/entities/produto'
 import CreatePedidoRequest from '@/infra/web/nestjs/pedidos/dto/create-pedido.request'
@@ -18,11 +21,13 @@ describe('Create Pedido Feature', () => {
     let setup: ITestSetup
     let produtoFactory: Factory<Produto>
     let pedidoRepository: IPedidoRepository
+    let paymentService: IRangoPaymentService
 
     beforeAll(async () => {
       setup = await IntegrationTestSetup.getInstance()
       produtoFactory = setup.factory.produtoFactory()
       pedidoRepository = setup.app.get<IPedidoRepository>(IPedidoRepositorySymbol)
+      paymentService = setup.app.get<IRangoPaymentService>(IPaymentService)
     })
 
     describe('when everything is valid', () => {
@@ -53,7 +58,7 @@ describe('Create Pedido Feature', () => {
           id: expect.any(Number),
           total: expect.any(Number),
           status: PedidoStatusEnum.PAGAMENTO_PENDENTE,
-          gatewayPagamentoId: expect.stringMatching(/^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/),
+          pagamentoId: expect.stringMatching(/^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/),
           createdAt: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z/),
           updatedAt: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z/),
           itens: produtos
@@ -104,6 +109,7 @@ describe('Create Pedido Feature', () => {
           // Arrange
           const requestBody = buildRequestBody(consumidor)
           const expectedResponse = buildExpectedResponse(consumidor)
+          jest.spyOn(paymentService, 'registerOrder').mockResolvedValueOnce(uuidv4())
 
           // Act & Assert
           await actAndAssert(requestBody, expectedResponse as PedidoResponse)
@@ -116,6 +122,7 @@ describe('Create Pedido Feature', () => {
           // Arrange
           const requestBody = buildRequestBody()
           const expectedResponse = buildExpectedResponse()
+          jest.spyOn(paymentService, 'registerOrder').mockResolvedValueOnce(uuidv4())
 
           // Act & Assert
           await actAndAssert(requestBody, expectedResponse as PedidoResponse)

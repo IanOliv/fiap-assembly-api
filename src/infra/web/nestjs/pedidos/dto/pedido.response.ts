@@ -28,8 +28,8 @@ export default class PedidoResponse implements PedidoDto {
   @ApiProperty({ description: 'Status atual do Pedido', enum: PedidoStatusEnum, example: PedidoStatusEnum.RECEBIDO })
   readonly status: PedidoStatusEnum
 
-  @ApiProperty({ description: 'ID do Pedido no gateway de pagamento', example: 'f1453a0d-4b53-4ff9-8b17-709e089ca805' })
-  readonly gatewayPagamentoId?: string
+  @ApiProperty({ description: 'ID do Pagamento no serviço irango-payment', example: 'f1453a0d-4b53-4ff9-8b17-709e089ca805' })
+  readonly pagamentoId?: string
 
   @ApiProperty({ description: 'Data de criação do Pedido', type: Date, example: new Date() })
   readonly createdAt?: Date
